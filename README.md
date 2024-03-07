@@ -1,4 +1,4 @@
-<!-- # Pascal's Triangle
+# Pascal's Triangle
 
 ## Overview
 
@@ -81,4 +81,4 @@ Create a class `LRUCache` that represents a Least Recently Used (LRU) cache:
   - 1-rotate_2d_matrix.py
   - 2-distribute_chocolates.py
   - 3-node.py
-  - 4-lru_cache.py -->
+  - 4-lru_cache.py
