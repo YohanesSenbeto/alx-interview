@@ -1,66 +1,32 @@
 #!/usr/bin/python3
+"""UTF-8 Validation"""
+
+
+def get_leading_set_bits(num):
+    """Counts the number of leading set bits (1)"""
+    set_bits = 0
+    helper = 1 << 7
+    while helper & num:
+        set_bits += 1
+        helper = helper >> 1
+    return set_bits
 
 
 def validUTF8(data):
-    """
-    Determines if a given data set represents a valid UTF-8 encoding.
-
-    Args:
-        data: A list of integers representing bytes of data.
-
-    Returns:
-        True if data is a valid UTF-8 encoding, else False.
-    """
-
-    """function to check if a byte is a valid start of a UTF-8 character"""
-
-    def is_start_byte(byte):
-        return (
-            (byte >> 7) == 0b0
-            or (byte >> 5) == 0b110
-            or (byte >> 4) == 0b1110
-            or (byte >> 3) == 0b11110
-        )
-
-    """Iterate through the data list"""
-    i = 0
-    while i < len(data):
-        byte = data[i]
-
-        """Check if byte is a valid start of a UTF-8 character"""
-        if not is_start_byte(byte):
-            return False
-
-        """Determine the number of bytes in the UTF-8 character"""
-        if (byte >> 7) == 0b0:
-            """Single-byte character"""
-            i += 1
-        elif (byte >> 5) == 0b110:
-            """Two-byte character"""
-            if i + 1 >= len(data) or (data[i + 1] >> 6) != 0b10:
+    """Determines if a given data set represents a valid UTF-8 encoding"""
+    bits_count = 0
+    for i in range(len(data)):
+        if bits_count == 0:
+            bits_count = get_leading_set_bits(data[i])
+            """1-byte character (format: 0xxxxxxx)"""
+            if bits_count == 0:
+                continue
+            """A character in UTF-8 can be 1 to 4 bytes long"""
+            if bits_count == 1 or bits_count > 4:
                 return False
-            i += 2
-        elif (byte >> 4) == 0b1110:
-            """Three-byte character"""
-            if (
-                i + 2 >= len(data)
-                or (data[i + 1] >> 6) != 0b10
-                or (data[i + 2] >> 6) != 0b10
-            ):
-                return False
-            i += 3
-        elif (byte >> 3) == 0b11110:
-            """Four-byte character"""
-            if (
-                i + 3 >= len(data)
-                or (data[i + 1] >> 6) != 0b10
-                or (data[i + 2] >> 6) != 0b10
-                or (data[i + 3] >> 6) != 0b10
-            ):
-                return False
-            i += 4
         else:
-            """Invalid byte"""
-            return False
-
-    return True
+            """Checks if current byte has format 10xxxxxx"""
+            if not (data[i] & (1 << 7) and not (data[i] & (1 << 6))):
+                return False
+        bits_count -= 1
+    return bits_count == 0
