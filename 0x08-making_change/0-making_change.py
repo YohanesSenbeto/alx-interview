@@ -12,8 +12,7 @@ def makeChange(coins, total):
         return 0
 
     c = sorted(set(coins), reverse=True)
-    dp = [float("inf")] * (total + 1)
-    dp[0] = 0
+    dp = [0] + [float("inf")] * total
 
     """
     Iterate over each amount from 1 to total
