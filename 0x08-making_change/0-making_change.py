@@ -1,26 +1,21 @@
 #!/usr/bin/python3
-"""
-Making Change Problem
-"""
 
 
 def makeChange(coins, total):
     """
     Determines the fewest number of coins needed to meet a given amount total.
+    If total is 0 or less, return 0
+    If total cannot be met by any num of coins, return -1
     """
+    if not coins or coins is None:
+        return -1
     if total <= 0:
         return 0
 
-    c = sorted(set(coins), reverse=True)
-    dp = [0] + [float("inf")] * total
-
-    """
-    Iterate over each amount from 1 to total
-    and each coin to find the minimum number of coins
-    """
-    for a in range(1, total + 1):
-        for coin in c:
-            if a >= coin:
-                dp[a] = min(dp[a], dp[a - coin] + 1)
-
-    return dp[total] if dp[total] != float("inf") else -1
+    memo = {0: 0}
+    for amount in range(1, total + 1):
+        memo[amount] = float("inf")
+        for coin in coins:
+            if amount - coin >= 0 and memo[amount - coin] != float("inf"):
+                memo[amount] = min(memo[amount], memo[amount - coin] + 1)
+    return memo[total] if memo[total] != float("inf") else -1
