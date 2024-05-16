@@ -1,7 +1,17 @@
 #!/usr/bin/python3
 
+"""Check if a number is prime."""
+
 
 def is_prime(num):
+    """Check if a number is prime.
+
+    Args:
+        num (int): The number to check.
+
+    Returns:
+        bool: True if the number is prime, False otherwise.
+    """
     if num <= 1:
         return False
     for i in range(2, int(num**0.5) + 1):
@@ -10,7 +20,18 @@ def is_prime(num):
     return True
 
 
+"""Generate prime numbers up to a given limit."""
+
+
 def calculate_primes(n):
+    """Generate prime numbers up to a given limit.
+
+    Args:
+        n (int): The upper limit.
+
+    Returns:
+        list: A list of prime numbers up to n.
+    """
     primes = []
     for num in range(2, n + 1):
         if is_prime(num):
@@ -18,7 +39,20 @@ def calculate_primes(n):
     return primes
 
 
+"""Determine the winner of the Prime Game."""
+
+
 def isWinner(x, nums):
+    """Determine the winner of the Prime Game.
+
+    Args:
+        x (int): The number of rounds.
+        nums (list): An array of n for each round.
+
+    Returns:
+        str: The name of the player who won the most rounds.
+             None if the winner cannot be determined.
+    """
     winners = {"Maria": 0, "Ben": 0}
 
     for n in nums:
