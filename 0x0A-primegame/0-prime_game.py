@@ -55,13 +55,18 @@ def isWinner(x, nums):
     """
     winners = {"Maria": 0, "Ben": 0}
 
+    """Iterate over the rounds"""
     for n in nums:
+        """Calculate prime numbers up to n"""
         primes = calculate_primes(n)
+
+        """Determine the winner of the round based on the number of primes"""
         if len(primes) == 0 or len(primes) % 2 == 0:
             winners["Ben"] += 1
         else:
             winners["Maria"] += 1
 
+    """Determine the player with the most wins"""
     if winners["Maria"] > winners["Ben"]:
         return "Maria"
     elif winners["Maria"] < winners["Ben"]:
@@ -71,4 +76,4 @@ def isWinner(x, nums):
 
 
 if __name__ == "__main__":
-    print("Winner:", isWinner(3, [4, 5, 1]))
+    print("Winner:", isWinner(5, [2, 5, 1, 4, 3]))
